@@ -17,6 +17,19 @@ class UsersController extends Controller {
 
     const MIN_PASSWORD_LENGTH = 6;
 
+    public static function profileAction() {
+        $scripts = [
+            'createElement.js',
+            'buildNavMenu.js',
+            'sendRequest.js',
+            'getUrlParams.js',
+            'profile/User.js',
+            'profile/main.js'
+        ];
+
+        self::$view::show('SSN. Профиль.', 'standard', $scripts);
+    }
+
     public static function registerApi() {
         header('Content-Type: application/json; charset=UTF-8');
         header('Access-Control-Allow-Methods: POST');

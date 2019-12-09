@@ -12,3 +12,6 @@ composer.phar
 # RS256:
 *.key
 *.key.pub
+
+# Database:
+*.db

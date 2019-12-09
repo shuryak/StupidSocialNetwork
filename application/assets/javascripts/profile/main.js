@@ -1,0 +1,101 @@
+let urlParams = getUrlParams();
+
+if(!localStorage.getItem('id')) {
+  document.location.href = '../users/login';
+} else if(!urlParams.id || !Number.isInteger(+urlParams.id) || urlParams.id <= 0) {
+  location.search = '?id=' + localStorage.getItem('id');
+}
+
+buildNavMenu(+localStorage.getItem('id'));
+
+let currentUser = {};
+
+const mainRequestUrl = '../api/users.getUser';
+const mainRequestBody = {
+  id: +urlParams.id
+}
+
+sendRequest('POST', mainRequestUrl, mainRequestBody)
+  .then(data => {
+    if(data.data.response) {
+      currentUser = new User(+data.data.response.id, data.data.response.firstname, data.data.response.lastname, data.data.response.email);
+
+      const fullNamePlace = document.querySelector('.right__name');
+      fullNamePlace.textContent = currentUser.getFullName();
+      const emailPlace = document.querySelector('.right__email');
+      emailPlace.textContent = currentUser.email;
+
+      showLastUserPosts(localStorage.getItem('id'), 10, 0);
+
+      const postButton = document.querySelector('#post-button');
+      postButton.onclick = makePost;
+    } else if (data.data.error) {
+      location.search = '?id=' + localStorage.getItem('id');
+    }
+  })
+  .catch(err => {
+
+  });
+
+function makePost() {
+  const makePostRequestUrl = '../api/posts.post';
+  const makePostRequestBody = {
+    'access_token': localStorage.getItem('access_token'),
+    'content': document.querySelector('#post-field').value
+  }
+
+  sendRequest('POST', makePostRequestUrl, makePostRequestBody)
+    .then(data =>{
+      if(data.data.response) {
+        showLastUserPosts(localStorage.getItem('id'), 10, 0);
+      }
+    })
+    .catch(err => {
+
+    })
+}
+
+function showLastUserPosts(id, offset, start) {
+  const postPlace = document.querySelector('.right__posts');
+  postPlace.innerHTML = '';
+
+  const getPostsRequestUrl = '../api/posts.getLastUserPosts';
+  const getPostsRequestBody = {
+    'id': id,
+    'offset': offset,
+    'start': start
+  }
+
+  sendRequest('POST', getPostsRequestUrl, getPostsRequestBody)
+    .then(data => {
+      console.log(data);
+      if(data.data.response) {
+        data.data.response.posts.forEach(post => {
+          const postItem = createElement('div', {
+          class: 'post',
+          'data-id': post.post_id
+          }, [
+            createElement('p', {
+              class: 'post__date'
+            }),
+            createElement('p', {
+              class: 'post__text'
+            })
+          ]);
+
+          const postDate = postItem.querySelector('.post__date');
+          const postText = postItem.querySelector('.post__text');
+
+          const normalDate = new Date(post.time * 1000);
+
+          postDate.textContent = normalDate.toLocaleString('ru', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+          postText.textContent = post.content;
+
+          postPlace.append(postItem);
+        });
+      }
+    })
+    .catch(err => {
+
+    });
+}

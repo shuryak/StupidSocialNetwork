@@ -2,9 +2,9 @@
 
 return [
 
-    // 'controller/action' => [
-    //     'controller' => 'controller',
-    //     'action' => 'action',
-    // ],
+    'users/profile' => [
+        'controller' => 'users',
+        'action' => 'profile',
+    ],
 
 ];

@@ -12,7 +12,7 @@ class View {
         self::$route = $route['controller'].'/'.$route['action'];
     }
 
-    public static function show($title, $layout) {
+    public static function show($title, $layout, $scripts) {
         $path = 'application/views/'.self::$route.'.php';
 
         if(file_exists($path)) {
