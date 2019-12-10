@@ -1,41 +1,55 @@
 let urlParams = getUrlParams();
 
 if(!localStorage.getItem('id')) {
-  document.location.href = '../users/login';
-} else if(!urlParams.id || !Number.isInteger(+urlParams.id) || urlParams.id <= 0) {
+  location.href = '../users/login';
+} else if(!urlParams.id) {
   location.search = '?id=' + localStorage.getItem('id');
+} else if(!Number.isInteger(+urlParams.id) || urlParams.id <= 0) {
+  const mb = [
+    { text: 'OK', click() { this.hide() } },
+  ];
+
+  const errModal = new Modal('Неверные параметры в адресной строке.', mb);
+  errModal.show();
+} else {
+  buildNavMenu(+localStorage.getItem('id'));
+
+  let currentUser = {};
+
+  const mainRequestUrl = '../api/users.getUser';
+  const mainRequestBody = {
+    id: +urlParams.id
+  }
+
+  sendRequest('POST', mainRequestUrl, mainRequestBody)
+    .then(data => {
+      if(data.data.response) {
+        currentUser = new User(+data.data.response.id, data.data.response.firstname, data.data.response.lastname, data.data.response.email);
+
+        const fullNamePlace = document.querySelector('.right__name');
+        fullNamePlace.textContent = currentUser.getFullName();
+        const emailPlace = document.querySelector('.right__email');
+        emailPlace.textContent = currentUser.email;
+
+        showLastUserPosts(localStorage.getItem('id'), 10, 0);
+
+        const postButton = document.querySelector('#post-button');
+        postButton.onclick = makePost;
+      } else if (data.data.error.error_code == errorCodes.ID_IS_NOT_REGISTERED && +urlParams.id == localStorage.getItem('id')) {
+        const mb = [
+          { text: 'OK', click() { this.hide() } },
+        ];
+
+        const errModal = new Modal('Ошибка идентификации.', mb);
+        errModal.show();
+      } else {
+        location.search = '?id=' + localStorage.getItem('id');
+      }
+    })
+    .catch(err => {
+
+    });
 }
-
-buildNavMenu(+localStorage.getItem('id'));
-
-let currentUser = {};
-
-const mainRequestUrl = '../api/users.getUser';
-const mainRequestBody = {
-  id: +urlParams.id
-}
-
-sendRequest('POST', mainRequestUrl, mainRequestBody)
-  .then(data => {
-    if(data.data.response) {
-      currentUser = new User(+data.data.response.id, data.data.response.firstname, data.data.response.lastname, data.data.response.email);
-
-      const fullNamePlace = document.querySelector('.right__name');
-      fullNamePlace.textContent = currentUser.getFullName();
-      const emailPlace = document.querySelector('.right__email');
-      emailPlace.textContent = currentUser.email;
-
-      showLastUserPosts(localStorage.getItem('id'), 10, 0);
-
-      const postButton = document.querySelector('#post-button');
-      postButton.onclick = makePost;
-    } else if (data.data.error) {
-      location.search = '?id=' + localStorage.getItem('id');
-    }
-  })
-  .catch(err => {
-
-  });
 
 function makePost() {
   const makePostRequestUrl = '../api/posts.post';
@@ -48,10 +62,22 @@ function makePost() {
     .then(data =>{
       if(data.data.response) {
         showLastUserPosts(localStorage.getItem('id'), 10, 0);
+      } else {
+        const mb = [
+          { text: 'OK', click() { this.hide() } },
+        ];
+    
+        const errModal = new Modal('Ошибка отправки формы.', mb);
+        errModal.show();
       }
     })
     .catch(err => {
-
+      const mb = [
+        { text: 'OK', click() { this.hide() } },
+      ];
+  
+      const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+      errModal.show();
     })
 }
 
@@ -96,6 +122,11 @@ function showLastUserPosts(id, offset, start) {
       }
     })
     .catch(err => {
-
+      const mb = [
+        { text: 'OK', click() { this.hide() } },
+      ];
+  
+      const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+      errModal.show();
     });
 }

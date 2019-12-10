@@ -1,4 +1,4 @@
-const errorCode = {
+const errorCodes = {
   BAD_FIELDS: 0,
   UNKNOWN_INTERNAL_ERROR: 1,
   EMAIL_ALREADY_EXISTS: 2,

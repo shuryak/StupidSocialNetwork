@@ -21,6 +21,7 @@ class UsersController extends Controller {
         $scripts = [
             'createElement.js',
             'buildNavMenu.js',
+            'errorCodes.js',
             'sendRequest.js',
             'Modal.js',
             'getUrlParams.js',
