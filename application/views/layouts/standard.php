@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel='shortcut icon' href='../application/assets/images/favicon.ico' />
   <link rel="stylesheet" href="../application/assets/styles/main.css">
+  <link rel="stylesheet" href="../application/assets/styles/modals.css">
   <?php
   foreach($scripts as $i) {
     echo '<script defer src="../application/assets/javascripts/'.$i.'"></script>';
@@ -33,5 +34,7 @@
   <div class="page">
     <?php echo $content; ?>
   </div>
+
+  <div class="modals"></div>
 </body>
 </html>

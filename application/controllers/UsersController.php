@@ -22,6 +22,7 @@ class UsersController extends Controller {
             'createElement.js',
             'buildNavMenu.js',
             'sendRequest.js',
+            'Modal.js',
             'getUrlParams.js',
             'profile/User.js',
             'profile/main.js'
