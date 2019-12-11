@@ -55,7 +55,8 @@
   {
     "id": /* уникальный ID пользователя (целое число) */,
     "access_token": /* access_token (строка) */,
-    "refresh_token": /* refresh_token (строка) */
+    "refresh_token": /* refresh_token (строка) */,
+    "expires_in": /* timestamp времени окончания действия access_token (целое число) */
   }
   ```
 
@@ -90,7 +91,8 @@
   {
     "id": /* уникальный ID пользователя (целое число) */,
     "new_access_token": /* новый access_token (строка) */,
-    "new_refresh_token": /* новый refresh_token (строка) */
+    "new_refresh_token": /* новый refresh_token (строка) */,
+    "expires_in": /* timestamp времени окончания действия new_access_token (целое число) */
   }
   ```
 
