@@ -25,6 +25,7 @@ class UsersController extends Controller {
             'sendRequest.js',
             'Modal.js',
             'getUrlParams.js',
+            'getNewTokenPair.js',
             'profile/User.js',
             'profile/main.js'
         ];
@@ -147,10 +148,10 @@ class UsersController extends Controller {
                     'id' => $userInformation['response']['id'],
                 );
 
-                $access = Token::createAccessToken($accessTokenContent);
+                $access = Token::createAccessToken($accessTokenContent)['content'];
 
                 if(!$userInformation['response']['refresh_token']) {
-                    $refresh = Token::createRefreshToken($refreshTokenContent);
+                    $refresh = Token::createRefreshToken($refreshTokenContent)['content']['refresh_token'];
                     self::$model::addRefreshTokenToId($refresh, $userInformation['response']['id']);
                 } else {
                     $refresh = $userInformation['response']['refresh_token'];
@@ -161,8 +162,9 @@ class UsersController extends Controller {
                     array(
                         'response' => [
                             'id' => $userInformation['response']['id'],
-                            'access_token' => $access,
+                            'access_token' => $access['access_token'],
                             'refresh_token' => $refresh,
+                            'expires_in' => $access['expires_in'],
                         ],
                     )
                 );
@@ -263,8 +265,8 @@ class UsersController extends Controller {
                             'id' => $userInformation['response']['id'],
                         );
 
-                        $newAccessToken = Token::createAccessToken($accessTokenContent);
-                        $newRefreshToken = Token::createRefreshToken($refreshTokenContent);
+                        $newAccessToken = Token::createAccessToken($accessTokenContent)['content'];
+                        $newRefreshToken = Token::createRefreshToken($refreshTokenContent)['content']['refresh_token'];
 
                         $result = self::$model::addRefreshTokenToId($newRefreshToken, $decoded['content']['id']);
 
@@ -273,9 +275,10 @@ class UsersController extends Controller {
                             echo json_encode(
                                 array(
                                     'response' => [
-                                        'new_access_token' => $newAccessToken,
-                                        'new_refresh_token' => $newRefreshToken,
                                         'id' => $userInformation['response']['id'],
+                                        'new_access_token' => $newAccessToken['access_token'],
+                                        'new_refresh_token' => $newRefreshToken,
+                                        'expires_in' => $newAccessToken['expires_in'],
                                     ],
                                 )
                             );

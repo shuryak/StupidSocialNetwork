@@ -20,7 +20,15 @@ class Token {
             'data' => $dataArray,
             );
 
-        return JWT::encode($token, $key);
+        try {
+            $result = JWT::encode($token, $key);
+            return array('content' => [
+                'access_token' => $result,
+                'expires_in' => $exp,
+            ]);
+        } catch(Exception $e) {
+            return array('error' => false);
+        }
     }
 
     public static function createRefreshToken($dataArray) {
@@ -33,13 +41,20 @@ class Token {
             'data' => $dataArray,
             );
 
-        return JWT::encode($token, $privateKey, 'RS256');
+        try {
+            $result = JWT::encode($token, $privateKey, 'RS256');
+            return array('content' => [
+                'refresh_token' => $result,
+            ]);
+        } catch(Exception $e) {
+            return array('error' => false);
+        }
     }
 
     public static function decodeAccessToken($accessToken) {
         include 'application/lib/jwt-options.php';
 
-        try{
+        try {
             $decoded = JWT::decode($accessToken, $key, array('HS256'));
         } catch(\Firebase\JWT\ExpiredException $e) {
             return array(
@@ -57,7 +72,7 @@ class Token {
     public static function decodeRefreshToken($refreshToken) {
         include 'application/lib/jwt-options.php';
         
-        try{
+        try {
             $decoded = JWT::decode($refreshToken, $publicKey, array('RS256'));
         } catch(\Firebase\JWT\ExpiredException $e) {
             return array(

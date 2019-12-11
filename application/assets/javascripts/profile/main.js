@@ -1,6 +1,7 @@
 let urlParams = getUrlParams();
 
-if(!localStorage.getItem('id')) {
+if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
+  localStorage.clear();
   location.href = '../users/login';
 } else if(!urlParams.id) {
   location.search = '?id=' + localStorage.getItem('id');
@@ -47,11 +48,20 @@ if(!localStorage.getItem('id')) {
       }
     })
     .catch(err => {
+      const mb = [
+        { text: 'OK', click() { this.hide() } },
+      ];
 
+      const errModal = new Modal('Ошибка идентификации.', mb);
+      errModal.show();
     });
 }
 
-function makePost() {
+async function makePost() {
+  if(localStorage.getItem('expires_in') * 1000 <= Date.now()) {
+    await getNewTokenPair();
+  }
+  
   const makePostRequestUrl = '../api/posts.post';
   const makePostRequestBody = {
     'access_token': localStorage.getItem('access_token'),
@@ -60,6 +70,7 @@ function makePost() {
 
   sendRequest('POST', makePostRequestUrl, makePostRequestBody)
     .then(data =>{
+      console.log(data);
       if(data.data.response) {
         showLastUserPosts(localStorage.getItem('id'), 10, 0);
       } else {
