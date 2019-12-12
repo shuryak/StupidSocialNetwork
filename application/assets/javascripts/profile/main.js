@@ -32,7 +32,7 @@ if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
         const emailPlace = document.querySelector('.right__email');
         emailPlace.textContent = currentUser.email;
 
-        showLastUserPosts(localStorage.getItem('id'), 10, 0);
+        showLastUserPosts(+urlParams.id, 10, 0);
 
         const postButton = document.querySelector('#post-button');
         postButton.onclick = makePost;
