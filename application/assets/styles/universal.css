@@ -1,0 +1,56 @@
+.ssn-button {
+  padding: 10px 10px;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  background-color: #226089;
+  color: #ffffff;
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.ssn-button:hover {
+	background-color: #0f4d75;
+}
+
+.ssn-button:active {
+  background-color: #1d4b69;
+	position: relative;
+	top: 1px;
+}
+
+.ssn-textarea {
+  box-sizing: border-box;
+  resize: none;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  padding: 10px 10px;
+  border: 2px solid #226089;
+  border-radius: 8px;
+  color: #101010;
+  text-overflow: clip;
+  background: #ffffff;
+}
+
+.ssn-input {
+  box-sizing: border-box;
+  resize: none;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  padding: 8px 10px;
+  border: 2px solid #226089;
+  border-radius: 8px;
+  color: #101010;
+  text-overflow: clip;
+  background: #ffffff;
+}
+
+.ssn-field-description {
+  color: #656565;
+  margin: 0;
+  margin-bottom: 2px;
+  padding-left: 5px;
+}

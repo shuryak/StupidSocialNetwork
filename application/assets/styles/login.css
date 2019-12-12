@@ -1,0 +1,22 @@
+.middle__login {
+  display: flex;
+  flex-direction: column;
+}
+
+.middle__title {
+  margin: 0;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.middle__input {
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+.middle__button {
+  float: right;
+  margin-top: 10px;
+  width: 300px;
+}

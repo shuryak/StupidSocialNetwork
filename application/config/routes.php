@@ -7,4 +7,9 @@ return [
         'action' => 'profile',
     ],
 
+    'users/login' => [
+        'controller' => 'users',
+        'action' => 'login',
+    ],
+
 ];

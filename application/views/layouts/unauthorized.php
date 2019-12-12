@@ -7,6 +7,7 @@
   <link rel="shortcut icon" href="../application/assets/images/favicon.ico">
   <link rel="stylesheet" href="../application/assets/styles/universal.css">
   <link rel="stylesheet" href="../application/assets/styles/main.css">
+  <link rel="stylesheet" href="../application/assets/styles/login.css">
   <link rel="stylesheet" href="../application/assets/styles/modals.css">
   <?php
   foreach($scripts as $i) {
@@ -21,17 +22,6 @@
   </div>
 
   <div class="main-wrapper">
-    <div class="nav">
-      <ul class="nav__list">
-        <li class="nav__item">
-          <a class="nav__button" id="nav-profile">Мой профиль</a>
-        </li>
-        <li class="nav__item">
-          <a class="nav__button" id="nav-logout">Выход</a>
-        </li>
-      </ul>
-    </div>
-
     <div class="page">
       <?php echo $content; ?>
     </div>
