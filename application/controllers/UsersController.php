@@ -17,6 +17,18 @@ class UsersController extends Controller {
 
     const MIN_PASSWORD_LENGTH = 6;
 
+    public static function registerAction() {
+        $scripts = [
+            'createElement.js',
+            'Modal.js',
+            'sendRequest.js',
+            'errorCodes.js',
+            'register/main.js',
+        ];
+
+        self::$view::show('SSN. Регистрация.', 'unauthorized', $scripts);
+    }
+
     public static function loginAction() {
         $scripts = [
             'createElement.js',

@@ -12,4 +12,9 @@ return [
         'action' => 'login',
     ],
 
+    'users/register' => [
+        'controller' => 'users',
+        'action' => 'register',
+    ],
+
 ];

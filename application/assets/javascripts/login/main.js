@@ -2,7 +2,7 @@ if(localStorage.getItem('id') || localStorage.getItem('access_token')) {
   location.href = '../users/profile';
 }
 
-const loginButton = document.querySelector('#reg-button');
+const loginButton = document.querySelector('#login-button');
 
 loginButton.addEventListener('click', () => {
   const emailField = document.querySelector('#email-field').value;
@@ -39,5 +39,5 @@ loginButton.addEventListener('click', () => {
 
       const errModal = new Modal('Ошибка доступа.', mb);
       errModal.show();
-    })
-})
+    });
+});
