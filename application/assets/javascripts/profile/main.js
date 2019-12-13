@@ -15,6 +15,10 @@ if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
 } else {
   buildNavMenu(+localStorage.getItem('id'));
 
+  if(+localStorage.getItem('id') == +urlParams.id) {
+    showPostingFields();
+  }
+
   let currentUser = {};
 
   const mainRequestUrl = '../api/users.getUser';
@@ -33,9 +37,6 @@ if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
         emailPlace.textContent = currentUser.email;
 
         showLastUserPosts(+urlParams.id, 10, 0);
-
-        const postButton = document.querySelector('#post-button');
-        postButton.onclick = makePost;
       } else if (data.data.error.error_code == errorCodes.ID_IS_NOT_REGISTERED && +urlParams.id == localStorage.getItem('id')) {
         const mb = [
           { text: 'OK', click() { this.hide() } },
@@ -140,4 +141,28 @@ function showLastUserPosts(id, offset, start) {
       const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
       errModal.show();
     });
+}
+
+function showPostingFields() {
+  const postingFields = createElement('div', {
+    class: 'right__posting'
+  }, [
+    createElement('textarea', {
+      name: 'post',
+      id: 'post-field',
+      class: 'right__posting-content ssn-textarea',
+      maxlength: '128',
+      placeholder: 'Что у Вас нового?'
+    }),
+    createElement('button', {
+      class: 'right__posting-button ssn-button',
+      id: 'post-button'
+    })
+  ]);
+
+  postingFields.querySelector('.right__posting-button').textContent = 'Опубликовать';
+  postingFields.querySelector('.right__posting-button').onclick = makePost;
+
+  const postingFieldsPlace = document.querySelector('.right__top');
+  postingFieldsPlace.after(postingFields);
 }

@@ -13,10 +13,10 @@
     </div>
   </div>
 
-  <div class="right__posting">
+  <!-- <div class="right__posting">
     <textarea name="post" id="post-field" class="right__posting-content ssn-textarea" maxlength="128" placeholder="Что у Вас нового?"></textarea>
     <button class="right__posting-button ssn-button" id="post-button">Опубликовать</button>
-  </div>
+  </div> -->
 
   <div class="right__posts">
     <!-- <div class="post">
