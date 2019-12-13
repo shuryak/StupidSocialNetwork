@@ -30,6 +30,8 @@
           <a class="nav__button" id="nav-logout">Выход</a>
         </li>
       </ul>
+
+      <p class="nginx">Powered by NGINX</p>
     </div>
 
     <div class="page">
