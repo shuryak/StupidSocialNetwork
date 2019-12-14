@@ -20,6 +20,15 @@
 	top: 1px;
 }
 
+.ssn-button-pressed {
+  background-color: #d3dae0;
+  color: #41525e;
+}
+
+.ssn-button-pressed:hover {
+  background-color: #cbd0da;
+}
+
 .ssn-textarea {
   box-sizing: border-box;
   resize: none;

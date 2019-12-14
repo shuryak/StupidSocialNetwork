@@ -1,4 +1,5 @@
 let urlParams = getUrlParams();
+let currentUser = {};
 
 if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
   localStorage.clear();
@@ -15,16 +16,10 @@ if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
 } else {
   buildNavMenu(+localStorage.getItem('id'));
 
-  if(+localStorage.getItem('id') == +urlParams.id) {
-    showPostingFields();
-  }
-
-  let currentUser = {};
-
   const mainRequestUrl = '../api/users.getUser';
   const mainRequestBody = {
     id: +urlParams.id
-  }
+  };
 
   sendRequest('POST', mainRequestUrl, mainRequestBody)
     .then(data => {
@@ -56,6 +51,12 @@ if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
       const errModal = new Modal('Ошибка идентификации.', mb);
       errModal.show();
     });
+
+    if(+localStorage.getItem('id') == +urlParams.id) {
+      showPostingFields();
+    } else {
+      followButtonBuilder();
+    }
 }
 
 async function makePost() {
@@ -67,7 +68,7 @@ async function makePost() {
   const makePostRequestBody = {
     'access_token': localStorage.getItem('access_token'),
     'content': document.querySelector('#post-field').value
-  }
+  };
 
   sendRequest('POST', makePostRequestUrl, makePostRequestBody)
     .then(data =>{
@@ -102,7 +103,7 @@ function showLastUserPosts(id, offset, start) {
     'id': id,
     'offset': offset,
     'start': start
-  }
+  };
 
   sendRequest('POST', getPostsRequestUrl, getPostsRequestBody)
     .then(data => {
@@ -165,4 +166,144 @@ function showPostingFields() {
 
   const postingFieldsPlace = document.querySelector('.right__top');
   postingFieldsPlace.after(postingFields);
+}
+
+function followButtonBuilder() {
+  if(document.querySelector('.left__follow')) {
+    document.querySelector('.left__follow').remove();
+  }
+
+  if(document.querySelector('.left__follow-status')) {
+    document.querySelector('.left__follow-status').remove();
+  }
+
+  const isFollowedRequestUrl = '../api/followers.isFollowed';
+  const isFollowedRequestBody = {
+    follower: +localStorage.getItem('id'),
+    following: +urlParams.id
+  };
+
+  const followButton = createElement('button', {
+    class: 'left__follow ssn-button'
+  });
+
+  const followStatus = createElement('p', {
+    class: 'left__follow-status'
+  });
+
+  let followText = '';
+
+  sendRequest('POST', isFollowedRequestUrl, isFollowedRequestBody)
+    .then(data => {
+      console.log(data);
+      if(data.data.response == 0) {
+        followText = 'Подписаться';
+        followButton.onclick = follow;
+      } else if(data.data.response == 1) {
+        followText = 'Отписаться';
+        followButton.onclick = unfollow;
+        followButton.classList.add('ssn-button-pressed');
+      } else if(data.data.response == 2) {
+        followText = 'Удалить из друзей';
+        followButton.onclick = unfollow;
+        followButton.classList.add('ssn-button-pressed');
+      } else if(data.data.response == 3) {
+        followText = 'Добавить в друзья';
+        followButton.onclick = follow;
+        followStatus.textContent = currentUser.firstname + ' подписан на Вас.';
+      } else if(data.data.error) {
+        const mb = [
+          { text: 'OK', click() { this.hide() } },
+        ];
+    
+        const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+        errModal.show();
+      }
+
+      followButton.textContent = followText;
+
+      const followButtonPlace = document.querySelector('.left');
+      followButtonPlace.append(followButton);
+
+      if(followStatus.textContent) {
+        followButtonPlace.append(followStatus);
+      }
+    })
+    .catch(err => {
+      const mb = [
+        { text: 'OK', click() { this.hide() } },
+      ];
+  
+      const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+      errModal.show();
+    })
+}
+
+async function unfollow() {
+  if(localStorage.getItem('expires_in') * 1000 <= Date.now()) {
+    await getNewTokenPair();
+  }
+
+  const unfollowRequestUrl = '../api/followers.unfollow';
+  const unfollowRequestBody = {
+    access_token: localStorage.getItem('access_token'),
+    following: +urlParams.id
+  };
+
+  sendRequest('POST', unfollowRequestUrl, unfollowRequestBody)
+    .then(data => {
+      if(data.data.response) {
+        followButtonBuilder();
+      } else if(data.data.error) {
+        const mb = [
+          { text: 'OK', click() { this.hide() } },
+        ];
+    
+        const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+        errModal.show();
+      }
+    })
+    .catch(err => {
+      const mb = [
+        { text: 'OK', click() { this.hide() } },
+      ];
+  
+      const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+      errModal.show();
+    })
+}
+
+async function follow() {
+  if(localStorage.getItem('expires_in') * 1000 <= Date.now()) {
+    await getNewTokenPair();
+  }
+
+  const followRequestUrl = '../api/followers.follow';
+  const followRequestBody = {
+    access_token: localStorage.getItem('access_token'),
+    following: +urlParams.id
+  };
+
+  sendRequest('POST', followRequestUrl, followRequestBody)
+    .then(data => {
+      console.log(data);
+      if(data.data.response) {
+        followButtonBuilder();
+      } else if(data.data.error) {
+        const mb = [
+          { text: 'OK', click() { this.hide() } },
+        ];
+    
+        const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+        errModal.show();
+      }
+    })
+    .catch(err => {
+      const mb = [
+        { text: 'OK', click() { this.hide() } },
+      ];
+  
+      const errModal = new Modal('Произошла ошибка. Перезагрузите страницу.', mb);
+      errModal.show();
+    })
 }
