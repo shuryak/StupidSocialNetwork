@@ -1,7 +1,5 @@
 <div class="left">
   <img class="left__avatar" src="../application/assets/images/avatar.png" alt="Avatar">
-  <!-- <button class="left__follow ssn-button ssn-button-pressed">Добавить в друзья</button> -->
-  <!-- <p class="left__follow-status">Подписан на Вас</p> -->
 </div>
 
 <div class="right">

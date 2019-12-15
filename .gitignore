@@ -15,3 +15,6 @@ composer.phar
 
 # Database:
 *.db
+
+# Uploads:
+/uploads

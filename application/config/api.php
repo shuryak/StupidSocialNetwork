@@ -77,4 +77,9 @@ return [
         'method' => 'getUserFollowing',
     ],
 
+    'images.upload' => [
+        'controller' => 'images',
+        'method' => 'upload',
+    ],
+
 ];
