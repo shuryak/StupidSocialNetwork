@@ -11,4 +11,9 @@ function buildNavMenu(id) {
     localStorage.clear();
     location.reload();
   }
+
+  const navFollowers = navContent.querySelector('#nav-followers');
+  navFollowers.onclick = () => {
+    location.href = '../followers/followers?id=' + id;
+  }
 }

@@ -27,6 +27,9 @@
           <a class="nav__button" id="nav-profile">Мой профиль</a>
         </li>
         <li class="nav__item">
+          <a class="nav__button" id="nav-followers">Мои подписчики</a>
+        </li>
+        <li class="nav__item">
           <a class="nav__button" id="nav-logout">Выход</a>
         </li>
       </ul>
