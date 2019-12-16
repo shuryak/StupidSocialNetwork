@@ -15,7 +15,7 @@ if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
 } else {
   buildNavMenu(+localStorage.getItem('id'));
 
-  showUserFollowers(1, 10, 0);
+  showUserFollowers(+urlParams.id, 10, 0);
 }
 
 function showUserFollowers(id, offset, start) {
