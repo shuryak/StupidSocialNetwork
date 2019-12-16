@@ -13,11 +13,10 @@ class Db {
             self::$db = new PDO('sqlite:projectDB.db');
 
             self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $tables = require 'application/config/db-tables.php';
-            foreach($tables as $sql) {
-                self::$db->exec($sql);
-            }
+            // $tables = require 'application/config/db-tables.php';
+            // foreach($tables as $sql) {
+            //     self::$db->exec($sql);
+            // }
         } catch(Exception $e) {
             exit($e->getMessage());
         }
