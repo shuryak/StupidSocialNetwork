@@ -17,4 +17,9 @@ return [
         'action' => 'register',
     ],
 
+    'followers/followers' => [
+        'controller' => 'followers',
+        'action' => 'followers',
+    ],
+
 ];

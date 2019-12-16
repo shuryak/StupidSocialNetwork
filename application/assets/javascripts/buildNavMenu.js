@@ -3,7 +3,7 @@ function buildNavMenu(id) {
 
   const navProfile = navContent.querySelector('#nav-profile');
   navProfile.onclick = () => {
-    location.search = '?id=' + id;
+    location.href = '../users/profile?id=' + id;
   }
 
   const navLogout = navContent.querySelector('#nav-logout');

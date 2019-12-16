@@ -8,6 +8,20 @@ use application\lib\JsonData;
 
 class FollowersController extends Controller {
 
+    public static function followersAction() {
+        $scripts = [
+            'getUrlParams.js',
+            'createElement.js',
+            'buildNavMenu.js',
+            'Modal.js',
+            'sendRequest.js',
+            'errorCodes.js',
+            'followers/main.js',
+        ];
+
+        self::$view::show('SSN. Подписчики.', 'standard', $scripts);
+    }
+
     public static function isFollowedApi() {
         header('Content-Type: application/json; charset=UTF-8');
         header('Access-Control-Allow-Methods: POST');
