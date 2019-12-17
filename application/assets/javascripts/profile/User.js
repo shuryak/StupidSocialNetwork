@@ -1,9 +1,10 @@
 class User {
-  constructor(id, firstname, lastname, email) {
+  constructor(id, firstname, lastname, email, avatar) {
     this.id = id;
     this.firstname = firstname;
     this.lastname = lastname;
     this.email = email;
+    this.avatar = avatar;
   }
 
   getFullName() {

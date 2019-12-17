@@ -24,12 +24,14 @@ if(!localStorage.getItem('id') || !localStorage.getItem('access_token')) {
   sendRequest('POST', mainRequestUrl, mainRequestBody)
     .then(data => {
       if(data.data.response) {
-        currentUser = new User(+data.data.response.id, data.data.response.firstname, data.data.response.lastname, data.data.response.email);
+        currentUser = new User(+data.data.response.id, data.data.response.firstname, data.data.response.lastname, data.data.response.email, data.data.response.avatar);
 
         const fullNamePlace = document.querySelector('.right__name');
         fullNamePlace.textContent = currentUser.getFullName();
         const emailPlace = document.querySelector('.right__email');
         emailPlace.textContent = currentUser.email;
+        const avatarPlace = document.querySelector('.left__avatar');
+        avatarPlace.setAttribute('src', currentUser.avatar);
 
         showLastUserPosts(+urlParams.id, 10, 0);
       } else if (data.data.error.error_code == errorCodes.ID_IS_NOT_REGISTERED && +urlParams.id == localStorage.getItem('id')) {
