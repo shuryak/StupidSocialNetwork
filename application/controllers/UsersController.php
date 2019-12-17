@@ -235,6 +235,7 @@ class UsersController extends Controller {
                             'firstname' => $userInformation['response']['firstname'],
                             'lastname' => $userInformation['response']['lastname'],
                             'email' => $userInformation['response']['email'],
+                            'avatar' => $userInformation['response']['avatar'],
                         ],
                     )
                 );

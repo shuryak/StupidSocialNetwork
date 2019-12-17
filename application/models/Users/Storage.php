@@ -16,8 +16,8 @@ class Storage extends Model {
             ];
         }
 
-        $sql = 'INSERT INTO users (status, firstname, lastname, email, password) VALUES (:status, :firstname, :lastname, :email, :pass)';
-        $replacement = [':status' => 0, ':firstname' => $firstname, ':lastname' => $lastname, ':email' => $email, ':pass' => password_hash($password, PASSWORD_BCRYPT)];
+        $sql = 'INSERT INTO users (status, firstname, lastname, email, avatar, password) VALUES (:status, :firstname, :lastname, :email, :avatar, :pass)';
+        $replacement = [':status' => 0, ':firstname' => $firstname, ':lastname' => $lastname, ':email' => $email, ':avatar' => 'http://localhost/application/assets/images/avatar.png',':pass' => password_hash($password, PASSWORD_BCRYPT)];
 
         $result = Db::queryExecuteResult($sql, $replacement);
 
