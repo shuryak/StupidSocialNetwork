@@ -353,4 +353,69 @@ class UsersController extends Controller {
             );
         }
     }
+
+    public static function setAvatarApi() {
+        header('Content-Type: application/json; charset=UTF-8');
+        header('Access-Control-Allow-Methods: POST');
+        header('Access-Control-Max-Age: 3600');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+
+        $data = json_decode(file_get_contents('php://input'));
+
+        $dataCheckResult = JsonData::check($data, ['access_token', 'avatar']);
+
+        if(empty($dataCheckResult)) {
+            $accessToken = $data->access_token;
+            $avatar = $data->avatar;
+            if(preg_match('/^https?:\/\/'.$_SERVER['SERVER_NAME'].'\/uploads\/\d+_[a-z0-9]+\.jpg$/', $avatar)) {
+                $decodedToken = Token::decodeAccessToken($accessToken);
+                if(isset($decodedToken['content'])) {
+                    $result = self::$model::setAvatar($decodedToken['content']['id'], $avatar);
+
+                    if(isset($result['response'])) {
+                        http_response_code($result['http']);
+                        echo json_encode(
+                            array(
+                                'response' => true,
+                            )
+                        );
+                    } else {
+                        http_response_code($result['http']);
+                        echo json_encode(
+                            array(
+                                'error' => ['error_code' => $result['error_code'], 'details' => $result['details']],
+                            )
+                        );
+                    }
+                } elseif(isset($decodedToken['error'])) {
+                    if($decodedToken['error'] == Token::EXPIRED_TOKEN) {
+                        http_response_code(400);
+                        echo json_encode(
+                            array(
+                                'error' => ['error_code' => ErrorCodes::EXPIRED_ACCESS_TOKEN, 'details' => $accessToken],
+                            )
+                        );
+                        return;
+                    }
+                    if($decodedToken['error'] == Token::INVALID_TOKEN) {
+                        http_response_code(400);
+                        echo json_encode(
+                            array(
+                                'error' => ['error_code' => ErrorCodes::INVALID_ACCESS_TOKEN, 'details' => $accessToken],
+                            )
+                        );
+                        return;
+                    }
+                }
+            } else {
+                http_response_code(400);
+                echo json_encode(
+                    array(
+                        'error' => ['error_code' => ErrorCodes::ANOTHER_SERVER, 'details' => $avatar],
+                    )
+                );
+            }
+        }
+    }
 }

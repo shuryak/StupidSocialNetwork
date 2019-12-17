@@ -24,4 +24,5 @@ abstract class ErrorCodes {
   const FRIENDS_DOES_NOT_EXISTS = 18;
   const FOLLOWING_DOES_NOT_EXISTS = 19;
   const FILE_IS_TOO_LARGE = 20;
+  const ANOTHER_SERVER = 21;
 }

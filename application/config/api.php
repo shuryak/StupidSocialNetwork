@@ -22,6 +22,11 @@ return [
         'method' => 'getNewTokenPair',
     ],
 
+    'users.setAvatar' => [
+        'controller' => 'users',
+        'method' => 'setAvatar',
+    ],
+
     'posts.post' => [
         'controller' => 'posts',
         'method' => 'post',

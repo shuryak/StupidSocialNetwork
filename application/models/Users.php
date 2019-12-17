@@ -30,4 +30,8 @@ class Users {
         return Storage::addRefreshTokenToId($refreshToken, $id);
     }
 
+    public static function setAvatar($id, $avatar) {
+        return Storage::setAvatar($id, $avatar);
+    }
+
 }

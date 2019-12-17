@@ -152,4 +152,24 @@ class Storage extends Model {
         ];
     }
 
+    public static function setAvatar($id, $avatar) {
+        $sql = 'UPDATE users SET avatar = :avatar WHERE id = :id';
+        $replacement = [':avatar' => $avatar, ':id' => $id];
+
+        $result = Db::queryExecuteResult($sql, $replacement);
+
+        if($result) {
+            return [
+                'response' => true,
+                'http' => 200,
+            ];
+        }
+
+        return [
+            'error_code' => ErrorCodes::UNKNOWN_INTERNAL_ERROR,
+            'details' => false,
+            'http' => 500,
+        ];
+    }
+
 }
