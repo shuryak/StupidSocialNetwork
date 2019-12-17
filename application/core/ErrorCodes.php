@@ -25,4 +25,5 @@ abstract class ErrorCodes {
   const FOLLOWING_DOES_NOT_EXISTS = 19;
   const FILE_IS_TOO_LARGE = 20;
   const ANOTHER_SERVER = 21;
+  const ANOTHER_IMAGE = 22;
 }

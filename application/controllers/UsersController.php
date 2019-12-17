@@ -369,9 +369,19 @@ class UsersController extends Controller {
         if(empty($dataCheckResult)) {
             $accessToken = $data->access_token;
             $avatar = $data->avatar;
-            if(preg_match('/^https?:\/\/'.$_SERVER['SERVER_NAME'].'\/uploads\/\d+_[a-z0-9]+\.jpg$/', $avatar)) {
+            if(preg_match('/^https?:\/\/'.$_SERVER['SERVER_NAME'].'\/uploads\/(\d+)_[a-z0-9]+\.jpg$/', $avatar, $matches)) {
                 $decodedToken = Token::decodeAccessToken($accessToken);
                 if(isset($decodedToken['content'])) {
+                    if((int)$matches[1] != (int)$decodedToken['content']['id']) {
+                        http_response_code(400);
+                        echo json_encode(
+                            array(
+                                'error' => ['error_code' => ErrorCodes::ANOTHER_IMAGE, 'details' => (int)$matches[1]],
+                            )
+                        );
+                        return;
+                    }
+
                     $result = self::$model::setAvatar($decodedToken['content']['id'], $avatar);
 
                     if(isset($result['response'])) {
