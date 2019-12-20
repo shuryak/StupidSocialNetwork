@@ -26,4 +26,5 @@ abstract class ErrorCodes {
   const FILE_IS_TOO_LARGE = 20;
   const ANOTHER_SERVER = 21;
   const ANOTHER_IMAGE = 22;
+  const TOO_MANY_REQUESTS = 23;
 }

@@ -18,7 +18,7 @@ class Db {
             //     self::$db->exec($sql);
             // }
         } catch(Exception $e) {
-            exit($e->getMessage());
+            exit('Something went wrong!');
         }
         
     }

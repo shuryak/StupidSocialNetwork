@@ -1,6 +1,7 @@
 <?php
 
 namespace application\core;
+use application\core\Security;
 
 class Router {
 
@@ -60,6 +61,9 @@ class Router {
 
     public static function run() {
         if(self::isApi(trim($_SERVER['REQUEST_URI'], '/'))) {
+            if(!Security::checkForApiLimit()) {
+                exit(View::errorCode(429));
+            }
             self::addApi();
             if(self::matchApi()) {
                 $path = 'application\controllers\\'.ucfirst(self::$routesArray['controller']).'Controller';

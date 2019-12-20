@@ -4,8 +4,7 @@ namespace application\lib;
 
 class FileName {
   
-  public static function random($id, $path, $extension)
-  {
+  public static function random($id, $path, $extension) {
     $extension = $extension ? '.'.$extension : '';
     $path = $path ? $path.'/' : '';
 
