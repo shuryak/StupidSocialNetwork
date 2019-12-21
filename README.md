@@ -56,39 +56,47 @@ http {
 
 ## Необходимые модули и расширения:
 
-1. `imagick`:
+- `imagick`:
 
-    Установка выполняется следующей командой:
+  Установка выполняется следующей командой:
 
-    ```bash
-    sudo apt-get install php-imagick
-    ```
+  ```bash
+  sudo apt-get install php-imagick
+  ```
 
-2. `mbstring`:
+- `mbstring`:
 
-    Установка выполняется следующей командой:
+  Установка выполняется следующей командой:
 
-    ```bash
-    sudo apt-get install php-mbstring
-    ```
+  ```bash
+  sudo apt-get install php-mbstring
+  ```
 
-3. `fileinfo`:
+- `fileinfo`:
 
-    В конфигурационном файле `php.ini` для `PHP-FPM` (по умолчанию находится в 
-    директории `/etc/php/ВЕРСИЯ_PHP/fpm/`) уберите `;` перед строчкой 
-    `extension=fileinfo`.
+  В конфигурационном файле `php.ini` для `PHP-FPM` (по умолчанию находится в 
+  директории `/etc/php/ВЕРСИЯ_PHP/fpm/`) уберите `;` перед строчкой 
+  `extension=fileinfo`.
 
-4. `sqlite3` и `PDO`:
+- `sqlite3` и `PDO`:
 
-    В конфигурационном файле `php.ini` для `PHP-FPM` (по умолчанию находится в 
-    директории `/etc/php/ВЕРСИЯ_PHP/fpm/`) уберите `;` перед строчками 
-    `extension=pdo_sqlite` и `extension=sqlite3`.
+  В конфигурационном файле `php.ini` для `PHP-FPM` (по умолчанию находится в 
+  директории `/etc/php/ВЕРСИЯ_PHP/fpm/`) уберите `;` перед строчками 
+  `extension=pdo_sqlite` и `extension=sqlite3`.
 
-    Возможно, придётся также установить `SQLite3` с помощью `apt-get`:
+  Возможно, придётся также установить `SQLite 3` с помощью `apt-get`:
 
-    ```bash
-    sudo apt-get install php-sqlite3
-    ```
+  ```bash
+  sudo apt-get install sqlite3 php-sqlite3
+  ```
+
+- `Memcached`:
+
+  Установка выполняется следующей командой:
+
+  ```bash
+  sudo apt-get install memcached php-memcached
+  ```
 
 ## Генерация пары ключей RS256 для JWT
 
